@@ -6,7 +6,7 @@
 #include <errno.h>
 
 #ifndef MAX_BUF
-#define MAX_BUF 200
+#define MAX_BUF 250
 #endif
 
 /* 
@@ -17,8 +17,10 @@ int lsh_cd(char **args);
 int lsh_help(char **args);
 int lsh_exit(char **args);
 int lsh_launch(char **args);
+
 void print(char text[]);
 char* get_path(void);
+char* get_this_path(char* path);
 
 /* 
 List of builtin commands followed by thier corresponding functions
@@ -43,6 +45,7 @@ int lsh_num_builtins() {
 /* 
 Builtin function implemetations
 */
+
 int lsh_cd(char **args) {
     if (args[1] == NULL) {
         fprintf(stderr, "lsh: expected argument to \"cd\"\n");
@@ -145,40 +148,6 @@ char **lsh_split_line(char *line) {
 }
 
 #define LSH_RL_BUFSIZE 1024
-// char *lsh_read_line(void) {
-//     int bufsize = LSH_RL_BUFSIZE;
-//     int position = 0;
-//     char *buffer = malloc(sizeof(char) * bufsize);
-//     int c;
-
-//     if (!buffer) {
-//         fprintf(stderr, "lsh: allocation error\n");
-//         exit(EXIT_FAILURE);
-//     }
-
-//     while (1) {
-//         c = getchar();
-
-//         // 終了まできたらnullにして終わり
-//         if (c == EOF || c == '\n') {
-//             buffer[position] = '\0';
-//             return buffer;
-//         } else {
-//             buffer[position] = c;
-//         }
-//         position++;
-
-//         // もしbufferを超えた時
-//         if (position >= bufsize) {
-//             bufsize += LSH_RL_BUFSIZE;
-//             buffer = realloc(buffer, bufsize);
-//             if (!buffer) {
-//                 fprintf(stderr, "lsh: allocation error\n");
-//                 exit(EXIT_FAILURE);
-//             }
-//         }
-//     }
-// }
 
 char *lsh_read_line(void) {
     char *line = NULL;
@@ -187,14 +156,13 @@ char *lsh_read_line(void) {
     return line;
 }
 
-
 void lsh_loop(void) {
     char *line;
     char **args;
     int status;
     char path[MAX_BUF];
-    printf(" Welcome To Simple Shell!!\n");
-    //memset(path, '\0', PATHNAME_SIZE); 
+    print(" Welcome To Simple Shell !!\n");
+ 
     do {
         errno = 0;
         if (getcwd(path, MAX_BUF) == NULL) {
@@ -204,7 +172,7 @@ void lsh_loop(void) {
                 perror("getcwd");
         }
         printf("%s",path);
-        printf("> ");
+        print("> ");
         line = lsh_read_line();
         args = lsh_split_line(line);
         status = lsh_execute(args);
@@ -229,10 +197,8 @@ void print(char text[]){
         text="\n\n";
     }
     printf("%s",text);
-    free(text);
 }
 
 char* get_path(void){
 return getenv("PATH");
 }
-
