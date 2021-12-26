@@ -27,6 +27,7 @@ Only builtins are: cd, help, exit.<br>
 
 <p>
 See the link in the release for each version
+<a href="https://github.com/furukawa990754/shell/releases/tag/0.3">Relese</a>
 </p>
 <hr></hr>
 <h3>License</h3>
