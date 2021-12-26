@@ -1,1 +1,0 @@
-Welcome To Simple Shell !!\n Simple Shell Version 0.3
