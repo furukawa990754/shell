@@ -19,9 +19,6 @@ int lsh_exit(char **args);
 int lsh_launch(char **args);
 
 void print(char text[]);
-char* get_path(void);
-char* get_this_path(char* path);
-
 /* 
 List of builtin commands followed by thier corresponding functions
 */
@@ -60,8 +57,9 @@ int lsh_cd(char **args) {
 
 int lsh_help(char **args) {
     int i;
-    printf("Shuichi Nagao's LSH\n");
+    printf("Simple Shell !!\n");
     printf("Type program names and arguments, and hit enter.\n");
+    printf("Prese install third party command pack\n");
     printf("The following are built in: \n");
 
     for (i = 0; i < lsh_num_builtins(); i++) {
@@ -161,8 +159,12 @@ void lsh_loop(void) {
     char **args;
     int status;
     char path[MAX_BUF];
+    char* ver;
+    ver="0.3";
     print(" Welcome To Simple Shell !!\n");
- 
+    print(" Simple Shell Version ");
+    print(ver);
+    print("\n");
     do {
         errno = 0;
         if (getcwd(path, MAX_BUF) == NULL) {
@@ -192,13 +194,10 @@ int main(int argc, char *argv[]) {
   return EXIT_SUCCESS;
 }
 
+
 void print(char text[]){
     if (text==""){
         text="\n\n";
     }
     printf("%s",text);
-}
-
-char* get_path(void){
-return getenv("PATH");
 }
