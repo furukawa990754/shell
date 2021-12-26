@@ -18,8 +18,8 @@ This change may also cause bugs.
 <p>
 See the link in the release for each version
 </p>
-<hr><hr>
-<font size="4">
+<hr></hr>
+<font size="4px">
 License
 </font>
 <p>
