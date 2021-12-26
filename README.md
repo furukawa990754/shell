@@ -16,11 +16,20 @@ Please note that the basic specs follow the tutorial above, but include my own c
 This change may also cause bugs.
 </p>
 <p>
+As with the original tutorial, the following restrictions exist:
+<br>
+Commands must be on a single line.<br>
+Arguments must be separated by whitespace.<br>
+No quoting arguments or escaping whitespace.<br>
+No piping or redirection.<br>
+Only builtins are: cd, help, exit.<br>
+</p>
+
+<p>
 See the link in the release for each version
 </p>
 <hr></hr>
-<font size="4px">
-License
+<h3>License</h3>
 </font>
 <p>
 This code is in the public domain (see UNLICENSE for more details). This means you can use, modify, and distribute it without any restriction. I appreciate, but don't require, acknowledgement in derivative works.
