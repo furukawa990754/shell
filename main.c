@@ -233,14 +233,21 @@ void print(char text[]){
 
 char* get_user(void){
 char* user;
+char* user2;
+user2=getenv("USER");
 user=getenv("USERNAME");
-if (user==NULL){
-print(" Environment variable has no value set\n");
-user="Not Name";
-}
-return user;
-}
 
+if (user==NULL && user2==NULL){
+    print(" Environment variable has no value set\n");
+    user="Not Name";
+}
+if (user==NULL){
+    return user2;
+}
+else{
+    return user;
+}
+}
 
 int file_exist(void){
     FILE *file;
