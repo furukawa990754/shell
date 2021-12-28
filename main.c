@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
+#include <time.h>
 
 #ifndef MAX_BUF
 #define MAX_BUF 250
@@ -18,24 +19,47 @@ int lsh_help(char **args);
 int lsh_exit(char **args);
 int lsh_launch(char **args);
 
+int lsh_ltime(char **args);
 void print(char text[]);
 char* get_user(void);
 int file_exist(void);
+int lsh_cls(char **args);
+
 /* 
 List of builtin commands followed by thier corresponding functions
 */
 
 char *builtin_str[] = {
     "cd",
-    "help",
-    "exit"
+    "ohelp",
+    "exit",
+    "ltime",
+    "cls",
 };
 
 int (*builtin_func[])(char **) = {
     &lsh_cd,
     &lsh_help,
-    &lsh_exit
+    &lsh_exit,
+    &lsh_ltime,
+    &lsh_cls,
 };
+
+int lsh_cls(char **args){
+system("clear");
+return 1;
+}
+
+int lsh_ltime(char **args){
+  struct tm tm;
+  char *dayofweek[] = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
+  time_t t = time(NULL);
+  localtime_r(&t, &tm);
+  printf("%04d/%02d/%02d %s %02d:%02d:%02d\n",
+         tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday,
+         dayofweek[tm.tm_wday], tm.tm_hour, tm.tm_min, tm.tm_sec);
+  return 1;
+}
 
 int lsh_num_builtins() {
     return sizeof(builtin_str) / sizeof(char *);
