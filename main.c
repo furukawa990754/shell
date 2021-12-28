@@ -19,6 +19,8 @@ int lsh_exit(char **args);
 int lsh_launch(char **args);
 
 void print(char text[]);
+char* get_user(void);
+int file_exist(void);
 /* 
 List of builtin commands followed by thier corresponding functions
 */
@@ -59,7 +61,7 @@ int lsh_help(char **args) {
     int i;
     printf("Simple Shell !!\n");
     printf("Type program names and arguments, and hit enter.\n");
-    printf("Prese install third party command pack\n");
+    printf("Prese install command pack\n");
     printf("The following are built in: \n");
 
     for (i = 0; i < lsh_num_builtins(); i++) {
@@ -160,7 +162,9 @@ void lsh_loop(void) {
     int status;
     char path[MAX_BUF];
     char* ver;
-    ver="0.3";
+    char* user;
+    ver="0.4";
+    user=get_user();
     print(" Welcome To Simple Shell !!\n");
     print(" Simple Shell Version ");
     print(ver);
@@ -173,7 +177,8 @@ void lsh_loop(void) {
             else
                 perror("getcwd");
         }
-        printf("%s",path);
+        print(user);
+        printf("@%s",path);
         print("> ");
         line = lsh_read_line();
         args = lsh_split_line(line);
@@ -201,3 +206,29 @@ void print(char text[]){
     }
     printf("%s",text);
 }
+
+char* get_user(void){
+char* user;
+user=getenv("USERNAME");
+if (user==NULL){
+print(" Environment variable has no value set\n");
+user="Not Name";
+}
+return user;
+}
+
+
+int file_exist(void){
+    FILE *file;
+    if (file = fopen("/usr/local/lib/.conf", "r")) 
+    {
+        fclose(file);
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
+    return 0;
+}
+

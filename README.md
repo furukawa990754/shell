@@ -4,7 +4,7 @@
 Simsh is a shell for Linux that implements only the minimum required functionality.
 </p>
 <p>
-Use the command "slogin" or "shell" to start the shell.
+Use the command "sslogin" or "shell" to start the shell.
 </p>
 <p>
 This command forks from the following source code and contains some changes.This command is forked from the tutorial source code below and contains some changes.
