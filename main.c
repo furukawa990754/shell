@@ -31,7 +31,7 @@ List of builtin commands followed by thier corresponding functions
 
 char *builtin_str[] = {
     "cd",
-    "ohelp",
+    "help",
     "exit",
     "ltime",
     "cls",
