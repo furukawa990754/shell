@@ -1,0 +1,4 @@
+lsexitls
+cls
+reshell
+exit

@@ -13,7 +13,7 @@
 /* 
 Function declarations for builtin shell commands
 */
-
+void set_histry(char com[]);
 int lsh_cd(char **args);
 int lsh_help(char **args);
 int lsh_exit(char **args);
@@ -85,7 +85,7 @@ int lsh_help(char **args) {
     int i;
     printf("Simple Shell !!\n");
     printf("Type program names and arguments, and hit enter.\n");
-    printf("Prese install command pack\n");
+    printf("Creating /usr/local/lib/.sconf does not record history in working directory\n");
     printf("The following are built in: \n");
 
     for (i = 0; i < lsh_num_builtins(); i++) {
@@ -206,6 +206,7 @@ void lsh_loop(void) {
         print("> ");
         line = lsh_read_line();
         args = lsh_split_line(line);
+        set_histry(line);
         status = lsh_execute(args);
         free(line);
         free(args);
@@ -251,15 +252,32 @@ else{
 
 int file_exist(void){
     FILE *file;
-    if (file = fopen("/usr/local/lib/.conf", "r")) 
+    if (file = fopen("/usr/local/lib/.sconf", "r")) 
     {
         fclose(file);
+        file=NULL;
+        free(file);
         return 1;
     }
     else
     {
+        file=NULL;
+        free(file);
         return 0;
     }
     return 0;
 }
 
+void set_histry(char com[]){
+    int chk=file_exist();
+    if (com==NULL || com=="\n" || chk==1){
+        return;
+    }
+    char* homepath="./.simsh_histry";
+    FILE *file;
+    file = fopen(homepath, "a");
+    fprintf(file,"%s\n",com);
+    fclose(file);
+    file=NULL;
+    free(file);
+}
