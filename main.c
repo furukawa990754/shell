@@ -187,7 +187,7 @@ void lsh_loop(void) {
     char path[MAX_BUF];
     char* ver;
     char* user;
-    ver="0.4";
+    ver="0.6";
     user=get_user();
     print(" Welcome To Simple Shell !!\n");
     print(" Simple Shell Version ");
