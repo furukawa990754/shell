@@ -13,6 +13,7 @@
 /* 
 Function declarations for builtin shell commands
 */
+
 void set_histry(char com[]);
 int lsh_cd(char **args);
 int lsh_help(char **args);
@@ -24,7 +25,9 @@ void print(char text[]);
 char* get_user(void);
 int file_exist(void);
 int lsh_cls(char **args);
-
+int File_exist(char path[]);
+int histry(char **args);
+int ls(char **args);
 /* 
 List of builtin commands followed by thier corresponding functions
 */
@@ -35,6 +38,8 @@ char *builtin_str[] = {
     "exit",
     "ltime",
     "cls",
+    "histry",
+    "ls",
 };
 
 int (*builtin_func[])(char **) = {
@@ -43,6 +48,8 @@ int (*builtin_func[])(char **) = {
     &lsh_exit,
     &lsh_ltime,
     &lsh_cls,
+    &histry,
+    &ls,
 };
 
 int lsh_cls(char **args){
@@ -187,7 +194,7 @@ void lsh_loop(void) {
     char path[MAX_BUF];
     char* ver;
     char* user;
-    ver="0.6";
+    ver="0.7";
     user=get_user();
     print(" Welcome To Simple Shell !!\n");
     print(" Simple Shell Version ");
@@ -268,6 +275,20 @@ int file_exist(void){
     return 0;
 }
 
+int histry(char **args){
+    int chk=File_exist(".simsh_histry");
+    if (chk==0){
+    printf(" No File Histry File!! \n");
+    return 1;
+    }
+    FILE* f = fopen(".simsh_histry", "r");
+    char line[256];
+    while (fgets(line, 256, f) != NULL) {
+        printf("%s", line);
+    }
+    fclose(f);
+    return 1;
+}
 void set_histry(char com[]){
     int chk=file_exist();
     if (com==NULL || com=="\n" || chk==1){
@@ -281,3 +302,27 @@ void set_histry(char com[]){
     file=NULL;
     free(file);
 }
+
+int File_exist(char path[]){
+    FILE *file;
+    if (file = fopen(path, "r")) 
+    {
+        fclose(file);
+        file=NULL;
+        free(file);
+        return 1;
+    }
+    else
+    {
+        file=NULL;
+        free(file);
+        return 0;
+    }
+    return 0;
+}
+
+int ls(char **args){
+system("ls --color=auto");
+return 1;
+}
+
