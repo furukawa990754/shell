@@ -12,6 +12,9 @@ This command forks from the following source code and contains some changes.This
 <a href="https://brennan.io/2015/01/16/write-a-shell-in-c/">Base Tutorial</a>
 </p>
 <p>
+The history file is saved in the current working directory
+</p>
+<p>
 Please note that the basic specs follow the tutorial above, but include my own changes as described above.
 This change may also cause bugs.
 </p>

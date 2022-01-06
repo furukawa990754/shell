@@ -28,6 +28,7 @@ int lsh_cls(char **args);
 int File_exist(char path[]);
 int histry(char **args);
 int ls(char **args);
+char* get_home(void);
 /* 
 List of builtin commands followed by thier corresponding functions
 */
@@ -194,7 +195,7 @@ void lsh_loop(void) {
     char path[MAX_BUF];
     char* ver;
     char* user;
-    ver="0.7";
+    ver="0.8";
     user=get_user();
     print(" Welcome To Simple Shell !!\n");
     print(" Simple Shell Version ");
@@ -213,7 +214,9 @@ void lsh_loop(void) {
         print("> ");
         line = lsh_read_line();
         args = lsh_split_line(line);
+        if (line[0]!=10){
         set_histry(line);
+        }
         status = lsh_execute(args);
         free(line);
         free(args);
@@ -257,6 +260,22 @@ else{
 }
 }
 
+
+char* get_home(void){
+char* user;
+user="/.simsh_histry";
+char* user2;
+user2=getenv("HOME");
+
+
+if (user2==NULL){
+    print(" Environment variable has no value set\n");
+    user2=NULL;
+    return user2;
+}
+return strcat(user2, user);
+}
+
 int file_exist(void){
     FILE *file;
     if (file = fopen("/usr/local/lib/.sconf", "r")) 
@@ -282,25 +301,42 @@ int histry(char **args){
     return 1;
     }
     FILE* f = fopen(".simsh_histry", "r");
+    if (f==NULL){
+        printf("histry File Open Error (%s)\n", strerror(errno));
+        f=NULL;
+        free(f);
+        return 1;
+    }
     char line[256];
     while (fgets(line, 256, f) != NULL) {
+        if (line[0]==10){
+        continue;
+        }
         printf("%s", line);
+
     }
     fclose(f);
     return 1;
 }
+
 void set_histry(char com[]){
     int chk=file_exist();
-    if (com==NULL || com=="\n" || chk==1){
-        return;
-    }
-    char* homepath="./.simsh_histry";
+    char* homepath;
+    char* home;
+    homepath=".simsh_histry";
     FILE *file;
     file = fopen(homepath, "a");
+    if (file==NULL){
+        file=NULL;
+        free(file);
+        return;
+    }
     fprintf(file,"%s\n",com);
     fclose(file);
+    homepath=NULL;
     file=NULL;
     free(file);
+    free(homepath);
 }
 
 int File_exist(char path[]){
