@@ -27,9 +27,10 @@ int file_exist(void);
 int lsh_cls(char **args);
 int File_exist(char path[]);
 int histry(char **args);
-int ls(char **args);
 char* get_home(void);
-/* 
+int clean (char **args);
+int deleteFile(const char* fileName);
+/*
 List of builtin commands followed by thier corresponding functions
 */
 
@@ -40,7 +41,7 @@ char *builtin_str[] = {
     "ltime",
     "cls",
     "histry",
-    "ls",
+    "clean",
 };
 
 int (*builtin_func[])(char **) = {
@@ -50,7 +51,7 @@ int (*builtin_func[])(char **) = {
     &lsh_ltime,
     &lsh_cls,
     &histry,
-    &ls,
+    &clean,
 };
 
 int lsh_cls(char **args){
@@ -195,7 +196,7 @@ void lsh_loop(void) {
     char path[MAX_BUF];
     char* ver;
     char* user;
-    ver="0.8";
+    ver="0.9";
     user=get_user();
     print(" Welcome To Simple Shell !!\n");
     print(" Simple Shell Version ");
@@ -357,8 +358,11 @@ int File_exist(char path[]){
     return 0;
 }
 
-int ls(char **args){
-system("ls --color=auto");
+int clean(char **args){
+deleteFile(".simsh_histry");
 return 1;
 }
-
+int deleteFile(const char* fileName)
+{
+    return !(remove(fileName));
+}
