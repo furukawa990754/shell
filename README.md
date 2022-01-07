@@ -12,9 +12,6 @@ This command forks from the following source code and contains some changes.This
 <a href="https://brennan.io/2015/01/16/write-a-shell-in-c/">Base Tutorial</a>
 </p>
 <p>
-The history file is saved in the current working directory
-</p>
-<p>
 Please note that the basic specs follow the tutorial above, but include my own changes as described above.
 This change may also cause bugs.
 </p>
@@ -38,5 +35,10 @@ See the link in the release for each version
 <p>
 This code is in the public domain (see UNLICENSE for more details). This means you can use, modify, and distribute it without any restriction. I appreciate, but don't require, acknowledgement in derivative works.
 </p>
-
+<p>
+The history file is saved in the current working directory <br>
+[sudo make] Command To Compile and install <br>
+The command.c file is a file that contains extended commands for simsh.<br>
+Automatically included when using the make command
+</p>
 

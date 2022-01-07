@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
-#include <time.h>
+#include "command.h"
 
 #ifndef MAX_BUF
 #define MAX_BUF 250
@@ -14,22 +14,11 @@
 Function declarations for builtin shell commands
 */
 
-void set_histry(char com[]);
 int lsh_cd(char **args);
 int lsh_help(char **args);
 int lsh_exit(char **args);
 int lsh_launch(char **args);
 
-int lsh_ltime(char **args);
-void print(char text[]);
-char* get_user(void);
-int file_exist(void);
-int lsh_cls(char **args);
-int File_exist(char path[]);
-int histry(char **args);
-char* get_home(void);
-int clean (char **args);
-int deleteFile(const char* fileName);
 /*
 List of builtin commands followed by thier corresponding functions
 */
@@ -53,22 +42,6 @@ int (*builtin_func[])(char **) = {
     &histry,
     &clean,
 };
-
-int lsh_cls(char **args){
-system("clear");
-return 1;
-}
-
-int lsh_ltime(char **args){
-  struct tm tm;
-  char *dayofweek[] = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
-  time_t t = time(NULL);
-  localtime_r(&t, &tm);
-  printf("%04d/%02d/%02d %s %02d:%02d:%02d\n",
-         tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday,
-         dayofweek[tm.tm_wday], tm.tm_hour, tm.tm_min, tm.tm_sec);
-  return 1;
-}
 
 int lsh_num_builtins() {
     return sizeof(builtin_str) / sizeof(char *);
@@ -196,7 +169,7 @@ void lsh_loop(void) {
     char path[MAX_BUF];
     char* ver;
     char* user;
-    ver="0.9";
+    ver="1.0";
     user=get_user();
     print(" Welcome To Simple Shell !!\n");
     print(" Simple Shell Version ");
@@ -235,134 +208,3 @@ int main(int argc, char *argv[]) {
   return EXIT_SUCCESS;
 }
 
-
-void print(char text[]){
-    if (text==""){
-        text="\n\n";
-    }
-    printf("%s",text);
-}
-
-char* get_user(void){
-char* user;
-char* user2;
-user2=getenv("USER");
-user=getenv("USERNAME");
-
-if (user==NULL && user2==NULL){
-    print(" Environment variable has no value set\n");
-    user="Not Name";
-}
-if (user==NULL){
-    return user2;
-}
-else{
-    return user;
-}
-}
-
-
-char* get_home(void){
-char* user;
-user="/.simsh_histry";
-char* user2;
-user2=getenv("HOME");
-
-
-if (user2==NULL){
-    print(" Environment variable has no value set\n");
-    user2=NULL;
-    return user2;
-}
-return strcat(user2, user);
-}
-
-int file_exist(void){
-    FILE *file;
-    if (file = fopen("/usr/local/lib/.sconf", "r")) 
-    {
-        fclose(file);
-        file=NULL;
-        free(file);
-        return 1;
-    }
-    else
-    {
-        file=NULL;
-        free(file);
-        return 0;
-    }
-    return 0;
-}
-
-int histry(char **args){
-    int chk=File_exist(".simsh_histry");
-    if (chk==0){
-    printf(" No File Histry File!! \n");
-    return 1;
-    }
-    FILE* f = fopen(".simsh_histry", "r");
-    if (f==NULL){
-        printf("histry File Open Error (%s)\n", strerror(errno));
-        f=NULL;
-        free(f);
-        return 1;
-    }
-    char line[256];
-    while (fgets(line, 256, f) != NULL) {
-        if (line[0]==10){
-        continue;
-        }
-        printf("%s", line);
-
-    }
-    fclose(f);
-    return 1;
-}
-
-void set_histry(char com[]){
-    int chk=file_exist();
-    char* homepath;
-    char* home;
-    homepath=".simsh_histry";
-    FILE *file;
-    file = fopen(homepath, "a");
-    if (file==NULL){
-        file=NULL;
-        free(file);
-        return;
-    }
-    fprintf(file,"%s\n",com);
-    fclose(file);
-    homepath=NULL;
-    file=NULL;
-    free(file);
-    free(homepath);
-}
-
-int File_exist(char path[]){
-    FILE *file;
-    if (file = fopen(path, "r")) 
-    {
-        fclose(file);
-        file=NULL;
-        free(file);
-        return 1;
-    }
-    else
-    {
-        file=NULL;
-        free(file);
-        return 0;
-    }
-    return 0;
-}
-
-int clean(char **args){
-deleteFile(".simsh_histry");
-return 1;
-}
-int deleteFile(const char* fileName)
-{
-    return !(remove(fileName));
-}
