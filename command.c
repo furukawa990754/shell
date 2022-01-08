@@ -32,6 +32,8 @@ void print(char text[]){
         text="\n\n";
     }
     printf("%s",text);
+    text=NULL;
+    free(text);
 }
 
 
@@ -63,6 +65,7 @@ int deleteFile(const char* fileName)
 {
     return !(remove(fileName));
 }
+
 
 void set_histry(char com[]){
     int chk=file_exist();
@@ -144,3 +147,4 @@ int histry(char **args){
     fclose(f);
     return 1;
 }
+

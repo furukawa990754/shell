@@ -8,4 +8,5 @@ int lsh_cls(char **args);
 int clean(char **args);
 void set_histry(char com[]);
 int histry(char **args);
+int File_exist(char path[]);
 #endif

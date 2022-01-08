@@ -169,7 +169,7 @@ void lsh_loop(void) {
     char path[MAX_BUF];
     char* ver;
     char* user;
-    ver="1.0";
+    ver="1.1";
     user=get_user();
     print(" Welcome To Simple Shell !!\n");
     print(" Simple Shell Version ");
@@ -199,7 +199,10 @@ void lsh_loop(void) {
 
 int main(int argc, char *argv[]) {
   // Load config files, if any.
-
+  int c=File_exist("/usr/local/lib/.profile.sh");
+  if (c==1){
+  system("sh /usr/local/lib/.profile.sh");
+  }
   // Run command loop.
   lsh_loop();
 
